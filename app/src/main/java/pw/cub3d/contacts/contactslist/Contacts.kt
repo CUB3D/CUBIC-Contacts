@@ -4,11 +4,21 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import android.util.SparseArray
-import pw.cub3d.contacts.Contact
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import pw.cub3d.contacts.getIntValue
 import pw.cub3d.contacts.getStringValue
+import pw.cub3d.contacts.post
+
+data class ContactsResponse(val contacts: SparseArray<Contact>)
 
 class Contacts(private val ctx: Context) {
+
+    fun requestContacts() {
+        GlobalScope.launch {
+            ContactsResponse(getContacts()).post()
+        }
+    }
 
     private fun getContactProjection() = arrayOf(
         ContactsContract.Data.CONTACT_ID,

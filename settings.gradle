@@ -1,1 +1,1 @@
-include ':app', ':cub3ic.gradle'
+include ':app'

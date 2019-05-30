@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.util.size
 import androidx.recyclerview.widget.RecyclerView
-import pw.cub3d.contacts.Contact
 import pw.cub3d.contacts.R
+import pw.cub3d.contacts.post
 
 class ContactsAdapter(ctx: Context, private val contacts: SparseArray<Contact>): RecyclerView.Adapter<ContactViewHolder>() {
     private val inflater = LayoutInflater.from(ctx)!!
@@ -25,8 +25,14 @@ class ContactsAdapter(ctx: Context, private val contacts: SparseArray<Contact>):
         val contact = contacts.get(contacts.keyAt(position))
 
         holder.name.text = contact.displayName
-        holder.icon.setText(contact.firstName.substring(0, 1))
-        holder.header.text = contact.firstName.substring(0, 1).toUpperCase()
+        holder.icon.setText(contact.firstInitial)
+        holder.header.text = contact.firstInitial
+
+        holder.root.setOnClickListener {
+            ContactSelectedEvent(contact).post()
+        }
     }
 
 }
+
+data class ContactSelectedEvent(val contact: Contact)

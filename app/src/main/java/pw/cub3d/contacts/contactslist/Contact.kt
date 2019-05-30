@@ -1,4 +1,4 @@
-package pw.cub3d.contacts
+package pw.cub3d.contacts.contactslist
 
 data class Contact(
     val id: Int,
@@ -15,4 +15,7 @@ data class Contact(
 ) {
     val displayName: String
         get() = "$firstName $surname"
+
+    val firstInitial: String
+        get() = firstName.substring(0, 1).toUpperCase()
 }

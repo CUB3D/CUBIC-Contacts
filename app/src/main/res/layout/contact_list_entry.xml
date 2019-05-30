@@ -4,7 +4,7 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:orientation="vertical"
                                                    android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content" android:id="@+id/linearLayout">
+                                                   android:layout_height="wrap_content" android:id="@+id/contact_rootview">
 
     <TextView
             android:text="TextView"
@@ -19,8 +19,6 @@
     <com.github.abdularis.civ.AvatarImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="@android:color/white"
             app:avatarBackgroundColor="@color/colorAccent"
             app:text="A"
             app:textSize="22sp"
@@ -31,7 +29,7 @@
     <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
-            android:layout_height="14dp"
+            android:layout_height="wrap_content"
             android:id="@+id/contact_header"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp" app:layout_constraintBottom_toBottomOf="parent"

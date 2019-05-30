@@ -18,13 +18,33 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
+import pw.cub3d.contacts.contactslist.ContactSelectedEvent
 import pw.cub3d.contacts.contactslist.Contacts
 import pw.cub3d.contacts.contactslist.ContactsAdapter
+import pw.cub3d.contacts.details.ContactDetails
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val contacts: Contacts by inject()
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onContactSelected(contact: ContactSelectedEvent) {
+        supportFragmentManager.beginTransaction().use {
+            it.add(R.id.fragment, ContactDetails(), "contact-details")
+        }
+        println("SELECTED ${contact.contact.displayName}")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        register()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregister()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +52,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -47,15 +62,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
-
-        recycler_contacts.layoutManager = LinearLayoutManager(this)
-
-        GlobalScope.launch {
-            val contacts = contacts.getContacts()
-            runOnUiThread {
-                recycler_contacts.adapter = ContactsAdapter(this@MainActivity, contacts)
-            }
-        }
     }
 
     override fun onBackPressed() {
