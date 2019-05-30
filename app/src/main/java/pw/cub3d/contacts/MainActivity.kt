@@ -1,39 +1,33 @@
 package pw.cub3d.contacts
 
+import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
+import android.view.Menu
 import android.view.MenuItem
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
-import androidx.core.util.forEach
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.koin.android.ext.android.inject
 import pw.cub3d.contacts.contactslist.ContactSelectedEvent
-import pw.cub3d.contacts.contactslist.Contacts
-import pw.cub3d.contacts.contactslist.ContactsAdapter
-import pw.cub3d.contacts.details.ContactDetails
+import pw.cub3d.contacts.details.ContactDetailsActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onContactSelected(contact: ContactSelectedEvent) {
-        supportFragmentManager.beginTransaction().use {
-            it.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-            it.replace(R.id.fragment, ContactDetails.createInstance(contact.contact), "contact-details")
-        }
+
+        val intent = Intent(this, ContactDetailsActivity::class.java)
+        intent.putExtra("CONTACT_ID", contact.contact.contactId)
+        startActivity(intent)
+
+//        supportFragmentManager.beginTransaction().use {
+//            it.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+//            it.replace(R.id.fragment, ContactDetails.createInstance(contact.contact), "contact-details")
+//        }
         println("SELECTED ${contact.contact.displayName}")
     }
 
@@ -95,9 +89,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_contacts -> {
-
-            }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)

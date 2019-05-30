@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import android.util.SparseArray
+import androidx.core.util.keyIterator
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import pw.cub3d.contacts.getIntValue
@@ -11,12 +12,30 @@ import pw.cub3d.contacts.getStringValue
 import pw.cub3d.contacts.post
 
 data class ContactsResponse(val contacts: List<Contact>)
+data class ContactResponse(val contact: Contact)
 
 class Contacts(private val ctx: Context) {
 
+    private val contactsList: List<Contact>
+        get() = contactsData.second
+
+    private val contactsSparseArray: SparseArray<Contact>
+        get() = contactsData.first
+
+    private val contactsData: Pair<SparseArray<Contact>, List<Contact>>
+        get() = getContacts()
+
     fun requestContacts() {
         GlobalScope.launch {
-            ContactsResponse(getContacts()).post()
+            ContactsResponse(contactsList).post()
+        }
+    }
+
+    fun requestContactByID(id: Int) {
+        GlobalScope.launch {
+            contactsSparseArray[id]?.let {
+                ContactResponse(it).post()
+            }
         }
     }
 
@@ -43,21 +62,18 @@ class Contacts(private val ctx: Context) {
             "${ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME} COLLATE NOCASE"
         )
 
-    fun parseContact() {
+    fun getContacts(): Pair<SparseArray<Contact>, List<Contact>> {
+        val contacts = SparseArray<Contact>()
+        val contactsList = mutableListOf<Contact>()
 
-    }
-
-    fun getContacts(): List<Contact> {
-        val contacts = mutableListOf<Contact>()
         createContactsCursor()?.use {
 
             if(it.moveToFirst()) {
                 do {
-                    val accountName =
-                        it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME))
-                            ?: ""
-                    println("Acc name: $accountName")
-                    val accountType = it.getStringValue(ContactsContract.RawContacts.ACCOUNT_TYPE) ?: ""
+//                    val accountName =
+//                        it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME))
+//                            ?: ""
+//                    val accountType = it.getStringValue(ContactsContract.RawContacts.ACCOUNT_TYPE) ?: ""
 //                    if (ignoredSources.contains("$accountName:$accountType")) {
 //                        continue
 //                    }
@@ -103,12 +119,13 @@ class Contacts(private val ctx: Context) {
                         thumbnailUri
                     )
 
-                    contacts.add(contact)
+                    contacts.put(id, contact)
+                    contactsList.add(contact)
 
                 } while (it.moveToNext())
             }
         }
 
-        return contacts
+        return contacts to contactsList
     }
 }
