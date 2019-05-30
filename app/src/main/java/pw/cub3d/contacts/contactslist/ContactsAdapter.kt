@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pw.cub3d.contacts.R
 import pw.cub3d.contacts.post
 
-class ContactsAdapter(ctx: Context, private val contacts: SparseArray<Contact>): RecyclerView.Adapter<ContactViewHolder>() {
+class ContactsAdapter(ctx: Context, private val contacts: List<Contact>): RecyclerView.Adapter<ContactViewHolder>() {
     private val inflater = LayoutInflater.from(ctx)!!
 
 
@@ -22,7 +22,7 @@ class ContactsAdapter(ctx: Context, private val contacts: SparseArray<Contact>):
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        val contact = contacts.get(contacts.keyAt(position))
+        val contact = contacts[position]
 
         holder.name.text = contact.displayName
         holder.icon.setText(contact.firstInitial)

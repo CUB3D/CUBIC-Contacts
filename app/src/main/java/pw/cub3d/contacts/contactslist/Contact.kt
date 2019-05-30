@@ -18,4 +18,7 @@ data class Contact(
 
     val firstInitial: String
         get() = firstName.substring(0, 1).toUpperCase()
+
+    val phoneticName: String
+        get() = displayName
 }

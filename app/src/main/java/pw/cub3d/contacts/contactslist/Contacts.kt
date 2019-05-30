@@ -10,7 +10,7 @@ import pw.cub3d.contacts.getIntValue
 import pw.cub3d.contacts.getStringValue
 import pw.cub3d.contacts.post
 
-data class ContactsResponse(val contacts: SparseArray<Contact>)
+data class ContactsResponse(val contacts: List<Contact>)
 
 class Contacts(private val ctx: Context) {
 
@@ -47,9 +47,8 @@ class Contacts(private val ctx: Context) {
 
     }
 
-    fun getContacts(): SparseArray<Contact> {
-        val contacts = SparseArray<Contact>()
-
+    fun getContacts(): List<Contact> {
+        val contacts = mutableListOf<Contact>()
         createContactsCursor()?.use {
 
             if(it.moveToFirst()) {
@@ -104,7 +103,7 @@ class Contacts(private val ctx: Context) {
                         thumbnailUri
                     )
 
-                    contacts.put(id, contact)
+                    contacts.add(contact)
 
                 } while (it.moveToNext())
             }

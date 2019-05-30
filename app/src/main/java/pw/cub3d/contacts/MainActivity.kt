@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onContactSelected(contact: ContactSelectedEvent) {
         supportFragmentManager.beginTransaction().use {
-            it.add(R.id.fragment, ContactDetails(), "contact-details")
+            it.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+            it.replace(R.id.fragment, ContactDetails.createInstance(contact.contact), "contact-details")
         }
         println("SELECTED ${contact.contact.displayName}")
     }
@@ -60,6 +61,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
+        navView.menu.getItem(0).isChecked = true
 
         navView.setNavigationItemSelectedListener(this)
     }
@@ -92,22 +95,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_home -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_tools -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
+            R.id.nav_contacts -> {
 
             }
         }
