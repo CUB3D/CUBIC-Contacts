@@ -9,5 +9,7 @@ import pw.cub3d.contacts.R
 
 class ContactViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val name: TextView = view.findViewById(R.id.contact_name)!!
+    val header: TextView = view.findViewById(R.id.contact_header)!!
+
     val icon: AvatarImageView = view.findViewById(R.id.contact_avatarIcon)!!
 }

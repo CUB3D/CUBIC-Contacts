@@ -26,6 +26,7 @@ class ContactsAdapter(ctx: Context, private val contacts: SparseArray<Contact>):
 
         holder.name.text = contact.displayName
         holder.icon.setText(contact.firstName.substring(0, 1))
+        holder.header.text = contact.firstName.substring(0, 1).toUpperCase()
     }
 
 }
