@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_contacts_list.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
 
 import pw.cub3d.contacts.R
+import pw.cub3d.contacts.dataSources.Contacts
+import pw.cub3d.contacts.dataSources.ContactsResponse
 import pw.cub3d.contacts.register
 import pw.cub3d.contacts.unregister
 

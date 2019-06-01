@@ -1,12 +1,11 @@
 package pw.cub3d.contacts.contactslist
 
 import android.content.Context
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.util.size
 import androidx.recyclerview.widget.RecyclerView
 import pw.cub3d.contacts.R
+import pw.cub3d.contacts.dataSources.Contact
 import pw.cub3d.contacts.post
 
 class ContactsAdapter(ctx: Context, private val contacts: List<Contact>): RecyclerView.Adapter<ContactViewHolder>() {

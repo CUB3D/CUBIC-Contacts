@@ -1,10 +1,9 @@
-package pw.cub3d.contacts.contactslist
+package pw.cub3d.contacts.dataSources
 
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import android.util.SparseArray
-import androidx.core.util.keyIterator
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import pw.cub3d.contacts.getIntValue

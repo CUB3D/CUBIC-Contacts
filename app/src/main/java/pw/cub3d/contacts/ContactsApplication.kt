@@ -5,12 +5,14 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import pw.cub3d.contacts.contactslist.Contacts
+import pw.cub3d.contacts.dataSources.ContactMethods
+import pw.cub3d.contacts.dataSources.Contacts
 
-class Contacts : Application() {
+class ContactsApplication : Application() {
 
     private val modules = module {
         single { Contacts(get()) }
+        single { ContactMethods() }
     }
 
     override fun onCreate() {
@@ -18,7 +20,7 @@ class Contacts : Application() {
 
         startKoin {
             androidLogger()
-            androidContext(this@Contacts)
+            androidContext(this@ContactsApplication)
             modules(modules)
         }
     }

@@ -1,23 +1,25 @@
 package pw.cub3d.contacts.details
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager
 import pw.cub3d.contacts.R
 
 import kotlinx.android.synthetic.main.activity_contact_details.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
-import pw.cub3d.contacts.contactslist.Contact
-import pw.cub3d.contacts.contactslist.ContactResponse
-import pw.cub3d.contacts.contactslist.Contacts
+import pw.cub3d.contacts.dataSources.ContactMethod
+import pw.cub3d.contacts.dataSources.ContactMethods
+import pw.cub3d.contacts.dataSources.ContactResponse
+import pw.cub3d.contacts.dataSources.Contacts
 import pw.cub3d.contacts.register
 import pw.cub3d.contacts.unregister
 
 class ContactDetailsActivity : AppCompatActivity() {
 
     val contacts: Contacts by inject()
+    val contactMethods: ContactMethods by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,12 @@ class ContactDetailsActivity : AppCompatActivity() {
         contact_avatarIcon.setText(con.firstInitial)
         contact_name.text = con.displayName
         contact_phonetic_name.text = con.phoneticName
+
+        contact_contactMethodsRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        contact_contactMethodsRecycler.adapter = ContactMethodsAdapter(this, contactMethods.ALL_CONTACT_METHODS.toList())
+
+        contact_contactDetails.layoutManager = LinearLayoutManager(this)
+        contact_contactDetails.adapter = ContactDetailsAdapter(this, contact.contact.details)
     }
 
     companion object {

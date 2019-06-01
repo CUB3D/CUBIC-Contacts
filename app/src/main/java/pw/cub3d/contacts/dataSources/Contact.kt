@@ -1,4 +1,6 @@
-package pw.cub3d.contacts.contactslist
+package pw.cub3d.contacts.dataSources
+
+import pw.cub3d.contacts.R
 
 data class Contact(
     val id: Int,
@@ -21,4 +23,19 @@ data class Contact(
 
     val phoneticName: String
         get() = displayName
+
+    val details: List<ContactDetail>
+        get() {
+            val detailsList = mutableListOf<ContactDetail>()
+
+            detailsList.add(ContactDetail("Mobile", R.drawable.ic_phone, "010"))
+
+            return detailsList
+        }
+
+//    val contactMethods: List<ContactMethod>
 }
+
+//inline fun <reified T> List<T>.emplce(vararg args: Any) {
+//    val t = T::class.constructors.first().call(args)
+//}
