@@ -17,8 +17,8 @@
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
     />
     <com.github.abdularis.civ.AvatarImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             app:avatarBackgroundColor="@color/colorAccent"
             app:text="A"
             app:textSize="22sp"

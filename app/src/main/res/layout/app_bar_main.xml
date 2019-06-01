@@ -10,15 +10,17 @@
     <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay" android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" android:layout_marginTop="5dp">
+            android:theme="@style/AppTheme" android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" android:layout_marginTop="5dp"
+            android:background="@drawable/appbar_shape"
+    >
 
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                android:background="@drawable/appbar_shape"
+                app:popupTheme="@style/AppTheme"
+                app:title="Search contacts"
         />
 
     </com.google.android.material.appbar.AppBarLayout>
