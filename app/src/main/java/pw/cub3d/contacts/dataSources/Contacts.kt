@@ -4,6 +4,8 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import android.util.SparseArray
+import androidx.core.database.getStringOrNull
+import androidx.core.util.forEach
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import pw.cub3d.contacts.getIntValue
@@ -13,7 +15,7 @@ import pw.cub3d.contacts.post
 data class ContactsResponse(val contacts: List<Contact>)
 data class ContactResponse(val contact: Contact)
 
-class Contacts(private val ctx: Context) {
+class Contacts(private val ctx: Context, private val phoneNumbers: PhoneNumbers) {
 
     private val contactsList: List<Contact>
         get() = contactsData.second
@@ -69,13 +71,17 @@ class Contacts(private val ctx: Context) {
 
             if(it.moveToFirst()) {
                 do {
-//                    val accountName =
-//                        it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME))
-//                            ?: ""
-//                    val accountType = it.getStringValue(ContactsContract.RawContacts.ACCOUNT_TYPE) ?: ""
+                    val accountName =
+                        it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME))
+                            ?: ""
+                    val accountType = it.getStringValue(ContactsContract.RawContacts.ACCOUNT_TYPE) ?: ""
 //                    if (ignoredSources.contains("$accountName:$accountType")) {
 //                        continue
 //                    }
+
+                    if(accountType != "at.bitfire.davdroid.address_book") {
+                        continue
+                    }
 
                     val id = it.getIntValue(ContactsContract.Data.RAW_CONTACT_ID)
                     val prefix = it.getStringValue(ContactsContract.CommonDataKinds.StructuredName.PREFIX) ?: ""
@@ -117,6 +123,10 @@ class Contacts(private val ctx: Context) {
                         contactId,
                         thumbnailUri
                     )
+
+                    phoneNumbers.getPhoneNumbers(id)[id]?.let { numbers ->
+                        contact.phoneNumbers.addAll(numbers)
+                    }
 
                     contacts.put(id, contact)
                     contactsList.add(contact)

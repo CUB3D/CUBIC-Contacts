@@ -7,11 +7,13 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import pw.cub3d.contacts.dataSources.ContactMethods
 import pw.cub3d.contacts.dataSources.Contacts
+import pw.cub3d.contacts.dataSources.PhoneNumbers
 
 class ContactsApplication : Application() {
 
     private val modules = module {
-        single { Contacts(get()) }
+        single { PhoneNumbers(get()) }
+        single { Contacts(get(), get()) }
         single { ContactMethods() }
     }
 

@@ -28,10 +28,14 @@ data class Contact(
         get() {
             val detailsList = mutableListOf<ContactDetail>()
 
-            detailsList.add(ContactDetail("Mobile", R.drawable.ic_phone, "010"))
+            phoneNumbers.forEach {
+                detailsList.add(ContactDetail(it.label, R.drawable.ic_phone, it.normalizedNumber))
+            }
 
             return detailsList
         }
+
+    val phoneNumbers = mutableListOf<PhoneNumber>()
 
 //    val contactMethods: List<ContactMethod>
 }
