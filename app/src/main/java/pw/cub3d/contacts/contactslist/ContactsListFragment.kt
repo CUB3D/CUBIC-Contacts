@@ -30,7 +30,7 @@ class ContactsListFragment : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onContactsLoaded(rsp: ContactsResponse) {
-        recycler_contacts.adapter = ContactsAdapter(context!!, rsp.contacts)
+        recycler_contacts.adapter = ContactsAdapter(context!!, rsp.contacts.sortedBy { it.firstName.toLowerCase() })
     }
 
     override fun onDestroyView() {

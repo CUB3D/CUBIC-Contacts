@@ -2,6 +2,7 @@ package pw.cub3d.contacts.contactslist
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pw.cub3d.contacts.R
@@ -22,10 +23,18 @@ class ContactsAdapter(ctx: Context, private val contacts: List<Contact>): Recycl
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         val contact = contacts[position]
+        val contactBefore = contacts.getOrNull(position - 1)
 
         holder.name.text = contact.displayName
         holder.icon.setText(contact.firstInitial)
+
         holder.header.text = contact.firstInitial
+
+        contactBefore?.let {
+            if(it.firstInitial == contact.firstInitial) {
+                holder.header.visibility = View.INVISIBLE
+            }
+        }
 
         holder.root.setOnClickListener {
             ContactSelectedEvent(contact).post()

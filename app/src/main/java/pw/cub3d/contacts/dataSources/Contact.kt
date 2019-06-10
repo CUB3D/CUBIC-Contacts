@@ -12,7 +12,7 @@ data class Contact(
 //    val nickname: String,
     val photoUri: String,
     val starred: Int,
-    val contactId: Int,
+    val contactID: Int,
     val thumbnailUri: String
 ) {
     val displayName: String

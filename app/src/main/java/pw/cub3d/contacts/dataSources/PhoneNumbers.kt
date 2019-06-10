@@ -54,15 +54,15 @@ class PhoneNumbers(val context: Context) {
 //        return TextUtils.join(" AND ", strings)
 //    }
 //
-//    private fun getSourcesSelectionArgs(mimetype: String? = null, contactId: Int? = null): Array<String> {
+//    private fun getSourcesSelectionArgs(mimetype: String? = null, contactID: Int? = null): Array<String> {
 //        val args = ArrayList<String>()
 //
 //        if (mimetype != null) {
 //            args.add(mimetype)
 //        }
 //
-//        if (contactId != null) {
-//            args.add(contactId.toString())
+//        if (contactID != null) {
+//            args.add(contactID.toString())
 //        } else {
 //            args.addAll(displayContactSources.filter { it.isNotEmpty() })
 //        }
@@ -81,8 +81,8 @@ class PhoneNumbers(val context: Context) {
             ContactsContract.CommonDataKinds.Phone.LABEL
         )
 
-//        val selection = if (contactId == null) getSourcesSelection() else "${ContactsContract.Data.RAW_CONTACT_ID} = ?"
-//        val selectionArgs = if (contactId == null) getSourcesSelectionArgs() else arrayOf(contactId.toString())
+//        val selection = if (contactID == null) getSourcesSelection() else "${ContactsContract.Data.RAW_CONTACT_ID} = ?"
+//        val selectionArgs = if (contactID == null) getSourcesSelectionArgs() else arrayOf(contactID.toString())
 
         val selection = "${ContactsContract.Data.RAW_CONTACT_ID} = ?"
         val selectionArgs = arrayOf(contactId.toString())

@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun onContactSelected(contact: ContactSelectedEvent) {
 
         val intent = Intent(this, ContactDetailsActivity::class.java)
-        intent.putExtra("CONTACT_ID", contact.contact.contactId)
+        intent.putExtra("CONTACT_ID", contact.contact.id)
         startActivity(intent)
 
 //        supportFragmentManager.beginTransaction().use {

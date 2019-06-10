@@ -4,7 +4,6 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import android.util.SparseArray
-import androidx.core.database.getStringOrNull
 import androidx.core.util.forEach
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,14 +16,17 @@ data class ContactResponse(val contact: Contact)
 
 class Contacts(private val ctx: Context, private val phoneNumbers: PhoneNumbers) {
 
-    private val contactsList: List<Contact>
-        get() = contactsData.second
+    private val contactsList: List<Contact> by lazy {
+        contactsData.second
+    }
 
-    private val contactsSparseArray: SparseArray<Contact>
-        get() = contactsData.first
+    private val contactsSparseArray: SparseArray<Contact> by lazy {
+        contactsData.first
+    }
 
-    private val contactsData: Pair<SparseArray<Contact>, List<Contact>>
-        get() = getContacts()
+    private val contactsData: Pair<SparseArray<Contact>, List<Contact>> by lazy {
+        getContacts()
+    }
 
     fun requestContacts() {
         GlobalScope.launch {
@@ -33,6 +35,7 @@ class Contacts(private val ctx: Context, private val phoneNumbers: PhoneNumbers)
     }
 
     fun requestContactByID(id: Int) {
+        println("Getting contact for $id")
         GlobalScope.launch {
             contactsSparseArray[id]?.let {
                 ContactResponse(it).post()
@@ -58,30 +61,19 @@ class Contacts(private val ctx: Context, private val phoneNumbers: PhoneNumbers)
     fun createContactsCursor(): Cursor? = ctx.contentResolver.query(
             ContactsContract.Data.CONTENT_URI,
             getContactProjection(),
-            "${ContactsContract.Data.MIMETYPE} = ?",
+            "${ContactsContract.Data.MIMETYPE} = ? AND ${ContactsContract.RawContacts.ACCOUNT_TYPE} = 'at.bitfire.davdroid.address_book'",
             arrayOf(ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE),
             "${ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME} COLLATE NOCASE"
         )
 
     fun getContacts(): Pair<SparseArray<Contact>, List<Contact>> {
         val contacts = SparseArray<Contact>()
-        val contactsList = mutableListOf<Contact>()
 
         createContactsCursor()?.use {
 
             if(it.moveToFirst()) {
                 do {
-                    val accountName =
-                        it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME))
-                            ?: ""
-                    val accountType = it.getStringValue(ContactsContract.RawContacts.ACCOUNT_TYPE) ?: ""
-//                    if (ignoredSources.contains("$accountName:$accountType")) {
-//                        continue
-//                    }
 
-                    if(accountType != "at.bitfire.davdroid.address_book") {
-                        continue
-                    }
 
                     val id = it.getIntValue(ContactsContract.Data.RAW_CONTACT_ID)
                     val prefix = it.getStringValue(ContactsContract.CommonDataKinds.StructuredName.PREFIX) ?: ""
@@ -100,14 +92,25 @@ class Contacts(private val ctx: Context, private val phoneNumbers: PhoneNumbers)
                     val thumbnailUri = it.getStringValue(ContactsContract.CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI) ?: ""
 //                    val notes = ""
 
+                    var found = false
 
+                    for(i in 0 until contacts.size()) {
+                        if(contacts.valueAt(i).contactID == contactId) {
+                            println("Found duplicate contact")
+                            found = true
+                            break
+                        }
+                    }
+
+                    if(found)
+                        continue
 
 //                    val groups = ArrayList<Group>()
 //                    val organization = Organization("", "")
 //                    val websites = ArrayList<String>()
 //                    val ims = ArrayList<IM>()
 //                    val contact = Contact(id, prefix, firstName, middleName, surname, suffix, nickname, photoUri, numbers, emails, addresses,
-//                        events, accountName, starred, contactId, thumbnailUri, null, notes, groups, organization, websites, ims)
+//                        events, accountName, starred, contactID, thumbnailUri, null, notes, groups, organization, websites, ims)
 //
 //                    contacts.put(id, contact)
 
@@ -129,10 +132,14 @@ class Contacts(private val ctx: Context, private val phoneNumbers: PhoneNumbers)
                     }
 
                     contacts.put(id, contact)
-                    contactsList.add(contact)
 
                 } while (it.moveToNext())
             }
+        }
+
+        val contactsList = mutableListOf<Contact>()
+        contacts.forEach { _, value ->
+            contactsList.add(value)
         }
 
         return contacts to contactsList

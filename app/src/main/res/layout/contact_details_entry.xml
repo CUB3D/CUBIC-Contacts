@@ -24,5 +24,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/contactDetail_title"
             app:layout_constraintTop_toBottomOf="@+id/contactDetail_value" android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@+id/contactDetail_icon" android:layout_marginStart="8dp"/>
+            app:layout_constraintStart_toEndOf="@+id/contactDetail_icon" android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="@+id/contactDetail_icon"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
