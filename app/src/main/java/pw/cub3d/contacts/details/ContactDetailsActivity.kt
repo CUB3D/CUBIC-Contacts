@@ -50,6 +50,7 @@ class ContactDetailsActivity : AppCompatActivity() {
 
         contact_contactMethodsRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         contact_contactMethodsRecycler.adapter = ContactMethodsAdapter(this, contactMethods.ALL_CONTACT_METHODS.toList())
+        contact_contactMethodsRecycler.addItemDecoration(equalSpacingDecoration())
 
         contact_contactDetails.layoutManager = LinearLayoutManager(this)
         contact_contactDetails.adapter = ContactDetailsAdapter(this, contact.contact.details)
