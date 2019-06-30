@@ -3,6 +3,7 @@ package pw.cub3d.contacts.dataSources
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
+import android.telephony.PhoneNumberUtils
 import android.text.TextUtils
 import android.util.SparseArray
 import pw.cub3d.contacts.getIntValue
@@ -94,7 +95,7 @@ class PhoneNumbers(val context: Context) {
                 do {
                     val id = cursor.getIntValue(ContactsContract.Data.RAW_CONTACT_ID)
                     val number = cursor.getStringValue(ContactsContract.CommonDataKinds.Phone.NUMBER) ?: continue
-                    val normalizedNumber = cursor.getStringValue(ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER) ?: "TODO: fix normalize in phonenumbers"//number.normalizeNumber()
+                    val normalizedNumber = cursor.getStringValue(ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER) ?: PhoneNumberUtils.normalizeNumber(number)
                     val type = cursor.getIntValue(ContactsContract.CommonDataKinds.Phone.TYPE)
                     val label = cursor.getStringValue(ContactsContract.CommonDataKinds.Phone.LABEL) ?: ""
 

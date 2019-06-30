@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pw.cub3d.contacts.R
 
-class ContactMethodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val name: TextView = view.findViewById(R.id.methodEntry_name)!!
-    val icon: ImageView = view.findViewById(R.id.methodEntry_icon)!!
+class ContactMethodViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
+    val name: TextView = root.findViewById(R.id.methodEntry_name)!!
+    val icon: ImageView = root.findViewById(R.id.methodEntry_icon)!!
 }

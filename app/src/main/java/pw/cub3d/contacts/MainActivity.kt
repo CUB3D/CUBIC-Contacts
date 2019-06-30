@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -22,12 +23,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val intent = Intent(this, ContactDetailsActivity::class.java)
         intent.putExtra("CONTACT_ID", contact.contact.id)
-        startActivity(intent)
+        startActivityForResult(intent, ContactDetailsActivity.VIEW_CONTACT)
 
-//        supportFragmentManager.beginTransaction().use {
-//            it.setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-//            it.replace(R.id.fragment, ContactDetails.createInstance(contact.contact), "contact-details")
-//        }
         println("SELECTED ${contact.contact.displayName}")
     }
 
@@ -46,6 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.design_dark_default_color_background)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -87,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
+        // Handle navigation root item clicks here.
         when (item.itemId) {
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)

@@ -24,22 +24,25 @@ data class Contact(
     val phoneticName: String
         get() = displayName
 
-    val details: List<ContactDetail>
-        get() {
+    val details: List<ContactDetail> by lazy {
             val detailsList = mutableListOf<ContactDetail>()
 
             phoneNumbers.forEach {
-                detailsList.add(ContactDetail(it.label, R.drawable.ic_phone, it.normalizedNumber))
+                println(it)
+                detailsList.add(ContactDetail(it.displayLabel, R.drawable.ic_phone, it.normalizedNumber))
             }
 
-            return detailsList
+            detailsList
         }
 
     val phoneNumbers = mutableListOf<PhoneNumber>()
 
+    val snapChatName = ""
+
+    val preferedPhoneNumber: PhoneNumber
+        get() = phoneNumbers.first()
+
+    val emailAddresses = mutableListOf<String>()
+
 //    val contactMethods: List<ContactMethod>
 }
-
-//inline fun <reified T> List<T>.emplce(vararg args: Any) {
-//    val t = T::class.constructors.first().call(args)
-//}

@@ -33,6 +33,8 @@ class ContactsAdapter(ctx: Context, private val contacts: List<Contact>): Recycl
         contactBefore?.let {
             if(it.firstInitial == contact.firstInitial) {
                 holder.header.visibility = View.INVISIBLE
+            } else {
+                holder.header.visibility = View.VISIBLE
             }
         }
 
