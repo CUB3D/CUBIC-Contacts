@@ -8,11 +8,12 @@ import pw.cub3d.contacts.R
 class ContactMethods {
     val ALL_CONTACT_METHODS = arrayOf(
         ContactMethod(R.drawable.ic_phone, "Call") {
-            Intent(Intent.ACTION_CALL, Uri.parse("tel:${it.preferedPhoneNumber}"))
+            println(it.preferedPhoneNumber)
+            Intent(Intent.ACTION_CALL, Uri.parse("tel:${it.preferedPhoneNumber.dialableNumber}"))
         },
         ContactMethod(R.drawable.ic_message_square, "Text") {
             val sendIntent = Intent(Intent.ACTION_VIEW)
-            sendIntent.data = Uri.parse("sms:${it.preferedPhoneNumber}")
+            sendIntent.data = Uri.parse("sms:${it.preferedPhoneNumber.dialableNumber}")
             sendIntent
         },
         ContactMethod(R.drawable.ic_mail, "Email") {
@@ -29,11 +30,13 @@ class ContactMethods {
             if(it.snapChatName.isEmpty()) {
                  null
             } else {
-                val snapURL = Uri.parse("https://snapchat.com/add/${it.snapChatName}")
+//                val snapURL = Uri.parse("https://snapchat.com/add/${it.snapChatName}")
+
+                val snapURL = Uri.parse("https://www.messenger.com/t/draskovits.imre")
 
                 try {
                     val intent = Intent(Intent.ACTION_VIEW, snapURL)
-                    intent.setPackage("com.snapchat.android")
+//                    intent.setPackage("com.snapchat.android")
                     intent
                 } catch (e: Exception) {
                     Intent(Intent.ACTION_VIEW, snapURL)

@@ -10,18 +10,18 @@
     <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme" android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" android:layout_marginTop="5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/appbar_shape"
+            app:elevation="0dp"
     >
 
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:popupTheme="@style/AppTheme"
-                app:title="Search contacts"
-        />
+                app:title="Search contacts"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,9 +31,10 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:showIn="@layout/app_bar_main"
             tools:context=".MainActivity">
+
         <fragment
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:name="pw.cub3d.contacts.contactslist.ContactsListFragment"
                 android:id="@+id/fragment"
                 app:layout_constraintTop_toTopOf="parent"

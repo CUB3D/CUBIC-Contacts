@@ -1,6 +1,8 @@
 package pw.cub3d.contacts.dataSources
 
+import android.telephony.PhoneNumberUtils
 import pw.cub3d.contacts.R
+import java.util.*
 
 data class Contact(
     val id: Int,
@@ -29,7 +31,7 @@ data class Contact(
 
             phoneNumbers.forEach {
                 println(it)
-                detailsList.add(ContactDetail(it.displayLabel, R.drawable.ic_phone, it.normalizedNumber))
+                detailsList.add(ContactDetail(it.displayLabel, R.drawable.ic_phone, PhoneNumberUtils.formatNumber(it.number, Locale.getDefault().country)))
             }
 
             detailsList
@@ -37,7 +39,7 @@ data class Contact(
 
     val phoneNumbers = mutableListOf<PhoneNumber>()
 
-    val snapChatName = ""
+    val snapChatName = "pooderyb"
 
     val preferedPhoneNumber: PhoneNumber
         get() = phoneNumbers.first()
