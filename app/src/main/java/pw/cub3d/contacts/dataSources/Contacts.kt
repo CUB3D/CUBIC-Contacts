@@ -142,6 +142,8 @@ class Contacts(private val ctx: Context, private val phoneNumbers: PhoneNumbers)
             contactsList.add(value)
         }
 
+        println("Loaded ${contacts.size()} contacts")
+
         return contacts to contactsList
     }
 }

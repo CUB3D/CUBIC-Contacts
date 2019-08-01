@@ -1,17 +1,20 @@
 package pw.cub3d.contacts.details
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.abdularis.civ.AvatarImageView
 import pw.cub3d.contacts.R
 
 import kotlinx.android.synthetic.main.activity_contact_details.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
+import pw.cub3d.contacts.contactEdit.EditContactActivity
 import pw.cub3d.contacts.dataSources.ContactMethods
 import pw.cub3d.contacts.dataSources.ContactResponse
 import pw.cub3d.contacts.dataSources.Contacts
@@ -48,7 +51,12 @@ class ContactDetailsActivity : AppCompatActivity() {
     fun onContactCallback(contact: ContactResponse) {
         val con = contact.contact
 
-        contact_avatarIcon.setText(con.firstInitial)
+        if(con.hasPhoto) {
+            contact_avatarIcon.setImageBitmap(con.getImageBitmap(this))
+            contact_avatarIcon.state = AvatarImageView.SHOW_IMAGE
+        } else {
+            contact_avatarIcon.setText(con.firstInitial)
+        }
         contact_name.text = con.displayName
         contact_phonetic_name.text = con.phoneticName
 
@@ -74,6 +82,10 @@ class ContactDetailsActivity : AppCompatActivity() {
 
         contact_contactDetails.layoutManager = LinearLayoutManager(this)
         contact_contactDetails.adapter = ContactDetailsAdapter(this, contact.contact.details)
+
+        contact_editButton.setOnClickListener {
+            startActivity(Intent(this, EditContactActivity::class.java))
+        }
     }
 
     companion object {

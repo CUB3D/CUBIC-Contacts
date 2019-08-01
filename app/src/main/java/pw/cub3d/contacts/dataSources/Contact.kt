@@ -1,5 +1,9 @@
 package pw.cub3d.contacts.dataSources
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
 import android.telephony.PhoneNumberUtils
 import pw.cub3d.contacts.R
 import java.util.*
@@ -39,12 +43,16 @@ data class Contact(
 
     val phoneNumbers = mutableListOf<PhoneNumber>()
 
-    val snapChatName = "pooderyb"
+    val snapChatName = ""
 
     val preferedPhoneNumber: PhoneNumber
         get() = phoneNumbers.first()
 
     val emailAddresses = mutableListOf<String>()
+
+    val hasPhoto = photoUri.isNotBlank()
+
+    fun getImageBitmap(ctx: Context): Bitmap? = MediaStore.Images.Media.getBitmap(ctx.contentResolver, Uri.parse(photoUri))
 
 //    val contactMethods: List<ContactMethod>
 }
