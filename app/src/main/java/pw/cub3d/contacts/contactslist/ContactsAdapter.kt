@@ -48,7 +48,7 @@ class ContactsAdapter(private val ctx: Context, private val contacts: List<Conta
             holder.icon.setImageBitmap(bm)
             holder.icon.state = AvatarImageView.SHOW_IMAGE
         } else {
-            holder.icon.setText(contact.firstInitial)
+            holder.icon.text = contact.firstInitial
             holder.icon.state = AvatarImageView.SHOW_INITIAL
             holder.icon.avatarBackgroundColor = backgroundColours[contact.contactID.hashCode() % backgroundColours.size]
 

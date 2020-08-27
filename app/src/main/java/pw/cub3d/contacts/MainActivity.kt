@@ -7,14 +7,20 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.ui.platform.setContent
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.android.ext.android.inject
 import pw.cub3d.contacts.contactslist.ContactSelectedEvent
+import pw.cub3d.contacts.dataSources.ContactRepository
+import pw.cub3d.contacts.dataSources.Contacts
+import pw.cub3d.contacts.dataSources.IContactRepository
 import pw.cub3d.contacts.details.ContactDetailsActivity
+import pw.cub3d.contacts.ui.activityMain
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,6 +44,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         unregister()
     }
 
+    val contactsRepository: IContactRepository by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -57,6 +65,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.menu.getItem(0).isChecked = true
 
         navView.setNavigationItemSelectedListener(this)
+
+        setContent {
+            activityMain(contactsRepository)
+        }
     }
 
     override fun onBackPressed() {
