@@ -54,5 +54,20 @@ data class Contact(
 
     fun getImageBitmap(ctx: Context): Bitmap? = MediaStore.Images.Media.getBitmap(ctx.contentResolver, Uri.parse(photoUri))
 
+    fun contains(searchQuery: String) =
+        listOf(
+            prefix,
+            firstName,
+            surname,
+            middleName,
+            suffix,
+        ).filter {
+            it.isNotBlank()
+        }.map {
+            it.toLowerCase(Locale.getDefault())
+        }.any {
+            searchQuery.contains(it) || it.contains(searchQuery)
+        }
+
 //    val contactMethods: List<ContactMethod>
 }
