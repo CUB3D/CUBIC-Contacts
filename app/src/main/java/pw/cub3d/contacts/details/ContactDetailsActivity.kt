@@ -55,7 +55,7 @@ class ContactDetailsActivity : AppCompatActivity() {
             contact_avatarIcon.setImageBitmap(con.getImageBitmap(this))
             contact_avatarIcon.state = AvatarImageView.SHOW_IMAGE
         } else {
-            contact_avatarIcon.setText(con.firstInitial)
+            contact_avatarIcon.text = con.firstInitial
         }
         contact_name.text = con.displayName
         contact_phonetic_name.text = con.phoneticName
